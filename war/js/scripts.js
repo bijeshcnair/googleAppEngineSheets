@@ -22,9 +22,9 @@ EverestApp.initializeChartConfig = function(){
         digitGroupSeparator: ","
    });*/
 	EverestApp.chart = new CanvasJS.Chart("chartContainer",{
-		culture : "nl",	
+
 		animationEnabled: true,
-		animationDuration: 2000,
+		animationDuration: 1500,
       	title:{
      	 	text: "Expense Developments"
       	},
@@ -36,11 +36,11 @@ EverestApp.initializeChartConfig = function(){
 }
 
 EverestApp.renderChart = function(data,onload){
-	if(onload && !EverestApp.chart){
+	//if(onload && !EverestApp.chart){
 		EverestApp.chart = new CanvasJS.Chart("chartContainer",{
-			culture : "nl",
+			
 			animationEnabled: true, 
-			animationDuration: 2000,
+			animationDuration: 1500,
 			axisY:{
 			   valueFormatString: "#,##.##",
 			},			
@@ -52,9 +52,9 @@ EverestApp.renderChart = function(data,onload){
 	        	dataPoints: data
 	      	}]
 	    });
-	}else{
+	//}else{
 		EverestApp.chart.options.data[0].dataPoints = data;
-	}
+	//}
 	EverestApp.chart.render();
 }
 
@@ -118,6 +118,7 @@ EverestApp.submitData = function(){
 	request.done(function(data) {
 		$("#confirmbtn").html("Confirm")
 		$('#notify-success').show();
+		EverestApp.refreshChart();
 		setTimeout(function(){
 		$('#notify-success').hide();
 		},timeout)

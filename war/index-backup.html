@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	
+		<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<meta name="viewport" content="width=device-width, initial-scale=1">
+
+					<title>Everest Demo Page</title>
+
+					<meta name="description" content="Source code generated using layoutit.com">
+						<meta name="author" content="LayoutIt!">
+
+							<link href="css/bootstrap.min.css" rel="stylesheet">
+								<link href="css/style.css" rel="stylesheet">
+									<style>
+ .outer {
+
+    border: 2px solid;
+    padding: 5px;
+ }
+ .verticalLine {
+  border-left: thick solid #ff0000;
+}
+  .hide { position:absolute; top:-1px; left:-1px; width:1px; height:1px; }
+
+									</style>
+									
+		
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+									
+									
+									
+									    <!-- script type="text/javascript">
+  window.onload = function () {
+   
+  }
+  </script-->
+  
+  
+  
+  <script>
+  
+$(window).on('load', function() {
+
+		var dataPoints = [];
+      $.getJSON("/testgoogleappengineproject", function(result){
+        $.each(result, function(i, field){
+      		alert(i);
+          dataPoints.push({x:i,y:field});
+        });
+    });
+    debugger;
+   /* var chart = new CanvasJS.Chart("chartContainer", {
+    data: [
+        {
+            dataPoints: dataPoints
+        }
+    ]
+});
+
+chart.render();
+*/    
+    
+    
+});
+  </script>
+   <script type="text/javascript" src="js/canvasjs.min.js"></script></head>
+  
+								</head>
+								<body>
+									<div class="container-fluid">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="row">
+													<div class="col-md-6">
+														<h1 class="text-left">
+						Everest Energy Group
+														</h1>
+													</div>
+													<div class="col-md-6">
+														<h3 class="text-right">
+						Project X
+														</h3>
+														<h4 class="text-right">
+						Client AA
+														</h4>
+														<h4 class="text-right">
+						Project Owner BB
+														</h4>
+													</div>
+												</div>
+												<hr width="90% >
+													<div class="row">
+														<div class="col-md-6">
+   <fieldset>
+      <legend style="black;font-weight:bold;">Data Entry</legend>
+      <iframe name="hiddenFrame" class="hide"></iframe>
+      
+															<form class="form-horizontal" action="/testgoogleappengineproject"  target="hiddenFrame">
+
+																<div class="form-group">
+
+																	<div class="form-group">
+																		<label class="control-label col-sm-2" for="input" style="text-align:left;">Personal Cost</label>
+																		<div class="col-sm-10">
+																			<input type="text" class="form-control" id="PersonalCost" name="personalCost" placeholder="Personal Cost">
+																			</div>
+																		</div>
+																		<div class="form-group">
+																			<label class="control-label col-sm-2" for="input" style="text-align:left;">Water Discharge</label>
+																			<div class="col-sm-10">
+																				<input type="text" class="form-control" id="waterDischarge" name="waterDischarge" placeholder="Water Discharge">
+																				</div>
+																			</div>
+																			<div class="form-group">
+																				<label class="control-label col-sm-2" for="input" style="text-align:left;">Service</label>
+																				<div class="col-sm-10">
+																					<input type="text" class="form-control" id="serviceOperation" placeholder="Service" name="serviceOperation">
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-sm-2" for="input" style="text-align:left;">Management</label>
+																					<div class="col-sm-10">
+																						<input type="text" class="form-control" id="managementAccounting" placeholder="Management accounting" name="managementAccounting">
+																						</div>
+																					</div>
+																					<div class="form-group">
+																						<label class="control-label col-sm-2" for="input" style="text-align:left;">Insurances</label>
+																						<div class="col-sm-10">
+																							<input type="text" class="form-control" id="insurances"  placeholder="insurances" name="insurances">
+																							</div>
+																						</div>
+																					<div class="form-group">
+																						<label class="control-label col-sm-2" for="input" style="text-align:left;">Contingency</label>
+																						<div class="col-sm-10">
+																							<input type="text" class="form-control" id="contingency"  placeholder="Contingency" name="contingency">
+																							</div>
+																						</div>
+																						
+																						<div class="form-group">
+																							<label class="control-label col-sm-2" for="input" style="text-align:left;">Inflation</label>
+																							<div class="col-sm-10">
+																								<input type="text" class="form-control" id="inflation" placeholder="Inflation" name="inflation">
+																								</div>
+																							</div>
+																							<div class="form-group"> 
+																								<div class="col-sm-offset-2 col-sm-10">
+																									<button type="submit" class="btn btn-default">Confirm</button>
+																								</div>
+																							</div>
+																						</form>
+																						</fieldset>
+																					</div>
+																					<div  style="height: 100%; width: 10%;"></div>
+							<div id="chartContainer" style="height: 100%; width: 50%;"></div>
+																					
+																					</div>
+																					<hr width="1" size="500" >
+
+																					<div class="col-md-6">
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+
+																	<!-- script src="js/jquery.min.js"/-->
+																	<script src="js/bootstrap.min.js"/>
+																	<script src="js/scripts.js"/>
+																	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+																</body>
+															</html>

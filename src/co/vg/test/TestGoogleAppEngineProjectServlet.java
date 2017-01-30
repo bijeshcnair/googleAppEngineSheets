@@ -161,13 +161,17 @@ public class TestGoogleAppEngineProjectServlet extends HttpServlet {
 		ValueRange valuesData = valuesResponse.get(1);
 		List<List<Object>> valueData = valuesData.getValues();
 
-		System.out.println("Name, Major");
 		System.out.println(valueData.get(0).size());
 		List<Object> rowsData =  valueData.get(0);
 		for(int j=0;j<valueData.get(0).size();j++){
 
 			System.out.println(rowsData.get(j));
-			valueList.add(rowsData.get(j).toString());
+			String valyue = rowsData.get(j).toString();
+			String arrayValue[] = valyue.split(",");
+			String newValue = "";
+			if(arrayValue[0]!=null)
+				newValue = arrayValue[0].replace(".","");
+			valueList.add(newValue);
 
 
 		}

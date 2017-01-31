@@ -21,10 +21,9 @@ import com.google.api.services.sheets.v4.SheetsRequestInitializer;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.BatchGetValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
+import com.google.appengine.labs.repackaged.org.json.JSONArray;
 import com.google.appengine.labs.repackaged.org.json.JSONException;
 import com.google.appengine.labs.repackaged.org.json.JSONObject;
-
-import com.google.gson.JsonObject;
 
 @SuppressWarnings("serial")
 public class TestGoogleAppEngineProjectServlet extends HttpServlet {
@@ -35,14 +34,14 @@ public class TestGoogleAppEngineProjectServlet extends HttpServlet {
 
 
 
-		String operation = req.getParameter("personalCost");
+		String operation = req.getParameter("Operation");
 		//resp.getWriter().write(operation);
 		HttpTransport httpTransport = new UrlFetchTransport();
 		JsonFactory jsonFactory = new JacksonFactory();
 
 		
 
-		if(operation == null){
+		if(operation.equals("read")){
 			try {
 				Sheets service = new Sheets.Builder(httpTransport, jsonFactory, null)
 						.setApplicationName("")
@@ -52,7 +51,7 @@ public class TestGoogleAppEngineProjectServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else {
+		}else if(operation.equals("write")){
 			Collection sheetScope = Collections.singletonList(SheetsScopes.DRIVE);
 
 			AppIdentityCredential credentials =
@@ -70,8 +69,8 @@ public class TestGoogleAppEngineProjectServlet extends HttpServlet {
 			String serviceMaintanenceAndOperation = req.getParameter("serviceOperation");
 			String managementAccounting = req.getParameter("managementAccounting");
 			String insurances = req.getParameter("insurances");
-			String contingency = req.getParameter("contingency")+"%";
-			String infaltion = req.getParameter("inflation")+"%";
+			String contingency = req.getParameter("contingency");
+			String infaltion = req.getParameter("inflation");
 
 			List<List<Object>> writeData = new ArrayList<>();
 
@@ -114,6 +113,70 @@ public class TestGoogleAppEngineProjectServlet extends HttpServlet {
 			
 
 
+		}else if(operation.equals("init")){
+			Sheets service = new Sheets.Builder(httpTransport, jsonFactory, null)
+					.setApplicationName("")
+					.setGoogleClientRequestInitializer(new SheetsRequestInitializer("AIzaSyBUzAhGs3SLD3c2I4rNfTQv4pauTnYiGA8")).build();
+			
+		//	Sheets service = getSheetsService(credentials, httpTransport, jsonFactory);
+			String spreadsheetId = "1SDSWns1FicuWnTNXhOAPyRLbc1MqSVjrvuTjViB7Zmo";
+			String writeRange1 = "Project Inputs!D12:D17";
+			String writeRange2 = "Project Inputs!C20";
+			
+			
+			List<String> ranges = new ArrayList<>();
+			ranges.add(writeRange1);
+			ranges.add(writeRange2);
+
+			BatchGetValuesResponse response = service.spreadsheets().values()
+					.batchGet(spreadsheetId).setRanges(ranges).setMajorDimension("COLUMNS").execute();
+
+			List<String> yearList = new ArrayList<>();
+
+			List<ValueRange> valuesResponse	 = response.getValueRanges();
+
+
+
+			ValueRange valYear = valuesResponse.get(0);
+			List<List<Object>> valuesYear = valYear.getValues();
+
+
+			System.out.println(valuesYear.get(0).size());
+			List<Object> rowsYear =  valuesYear.get(0);
+			for(int j=0;j<valuesYear.get(0).size();j++){
+
+				System.out.println(rowsYear.get(j));
+				yearList.add(rowsYear.get(j).toString());
+			}
+
+
+			ValueRange valuesData = valuesResponse.get(1);
+			List<List<Object>> valueData = valuesData.getValues();
+
+			System.out.println(valueData.get(0).size());
+			List<Object> rowsData =  valueData.get(0);
+			for(int j=0;j<valueData.get(0).size();j++){
+
+				yearList.add( rowsData.get(j).toString());
+			}
+			JSONArray ja = new JSONArray();
+			
+			System.out.println(valueData.size());
+			for(int k=0;k<yearList.size();k++){
+
+				try {
+					JSONObject json = new JSONObject();
+					json.put("value",yearList.get(k));
+					ja.put(json);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+			System.out.println(ja.toString());
+			resp.getWriter().write(ja.toString());
+			
 		}
 	}
 	public Sheets getSheetsService(AppIdentityCredential credentials,HttpTransport transport,JsonFactory factory){

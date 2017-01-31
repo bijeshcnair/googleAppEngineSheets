@@ -3,6 +3,7 @@ var EverestApp = EverestApp || {};
 
 EverestApp.constants = {
 	EXPENSE_DATA_SERVICE : "http://1-dot-leafy-future-156809.appspot.com/testgoogleappengineproject",
+	
 	SHEET_LINK : "https://docs.google.com/spreadsheets/d/1SDSWns1FicuWnTNXhOAPyRLbc1MqSVjrvuTjViB7Zmo/edit#gid=1913890961"
 }
 
@@ -14,6 +15,7 @@ $(document).ready(function() {
 	EverestApp.initializeChartConfig();
 	if(EverestApp.flags.loadGraphOnload) EverestApp.refreshChart()
 	else EverestApp.renderChart(false,true);
+	EverestApp.initData();
 })
 
 EverestApp.initializeChartConfig = function(){
@@ -79,6 +81,11 @@ EverestApp.getExpenseData = function(params,successCallback,errCallback){
 	var request = $.ajax({
 	  url: EverestApp.constants.EXPENSE_DATA_SERVICE,
 	  method: "GET",
+	  data : {
+		  
+		   Operation:'read'
+			   
+	  },			   
 	  dataType: "json"
 	});
 	 
@@ -90,6 +97,24 @@ EverestApp.getExpenseData = function(params,successCallback,errCallback){
 	 	errCallback && errCallback(jqXHR, textStatus);
 	});
 }
+
+EverestApp.initData= function(){
+	
+	var request = $.ajax({
+		  url: EverestApp.constants.EXPENSE_DATA_SERVICE,
+		  method: "GET",
+		  data : {
+			  
+		   Operation:'init',
+		  	
+		  },
+		  dataType: "json"
+		});
+	request.done(function(data) {
+		populateForm(data);
+	});
+}
+
 
 EverestApp.submitData = function(){
 	var PersonalCost = $("#PersonalCost").val();
@@ -105,6 +130,8 @@ EverestApp.submitData = function(){
 	  url: EverestApp.constants.EXPENSE_DATA_SERVICE,
 	  method: "GET",
 	  data : {
+		  
+	   Operation:'write',
 	  	personalCost : PersonalCost,
 		waterDischarge : waterDischarge,
 		serviceOperation : serviceOperation,
@@ -143,4 +170,25 @@ function getArrayFromObject(obj){
 		result.push(newObj); 
 	}
 	return result;
+}
+function populateForm(obj){
+	
+	$("#PersonalCost").val(obj[0].value);
+	$("#waterDischarge").val(obj[1].value);
+	$("#serviceOperation").val(obj[2].value);
+	$("#managementAccounting").val(obj[3].value);
+	$("#insurances").val(obj[4].value);
+	$("#contingency").val(obj[5].value);
+	$("#inflation").val(obj[6].value);
+	
+	
+	/*var result = [];
+	for(value in obj){
+		var newObj = {};
+		newObj["x"] =value;
+		//newObj["y"] = parseFloat(obj[key]);
+		result.push(newObj); 
+	}
+	return result;
+	*/
 }

@@ -45,7 +45,7 @@ public class TestGoogleAppEngineProjectServlet extends HttpServlet {
 			try {
 				Sheets service = new Sheets.Builder(httpTransport, jsonFactory, null)
 						.setApplicationName("")
-						.setGoogleClientRequestInitializer(new SheetsRequestInitializer("AIzaSyBUzAhGs3SLD3c2I4rNfTQv4pauTnYiGA8")).build();
+						.setGoogleClientRequestInitializer(new SheetsRequestInitializer("--")).build();
 				ReadData(resp,service);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block

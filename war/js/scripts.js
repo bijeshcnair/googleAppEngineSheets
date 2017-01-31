@@ -12,6 +12,7 @@ EverestApp.flags = {
 }
 
 $(document).ready(function() {
+	 $('[data-toggle="tooltip"]').tooltip();   
 	EverestApp.initializeChartConfig();
 	if(EverestApp.flags.loadGraphOnload) EverestApp.refreshChart()
 	else EverestApp.renderChart(false,true);
@@ -113,6 +114,35 @@ EverestApp.initData= function(){
 	request.done(function(data) {
 		populateForm(data);
 	});
+}
+EverestApp.generateReport = function(){
+	
+	
+
+	var canvas = $("#chartContainer .canvasjs-chart-canvas").get(0);
+	var dataURL = canvas.toDataURL();
+	console.log(dataURL);
+	
+	var pdf = new jsPDF();
+	
+	//pdf.line(20, 25, 60, 25);
+	pdf.addImage(dataURL, 'JPEG', 0, 0);
+	pdf.line(0, 110, 300, 110);
+	
+	pdf.setFontSize(25);
+	pdf.text(0,120,"Project Input Data:");
+	
+	pdf.setFontSize(15);
+	pdf.setFont('courier')
+	pdf.setFontType('normal')
+
+	pdf.text(20,135,"Personal Cost:"+$("#PersonalCost").val());
+	pdf.text(20,145,"Water Discharge:"+$("#waterDischarge").val());
+	pdf.text(20,155,"Service Operation:"+$("#serviceOperation").val());
+	pdf.text(20,165,"Management Accounting:"+$("#managementAccounting").val());
+	
+	pdf.save("Everest Energy Report.pdf");
+	
 }
 
 
